@@ -3,7 +3,7 @@ This repository contains the implementation code for paper: <br>
 __ForkMerge: Mitigating Negative Transfer in Auxiliary-Task Learning__ <br>
 [Junguang Jiang](https://junguangjiang.github.io), [Baixu Chen](https://thucbx99.github.io), [Ximei Wang](https://wxm17.github.io/), Junwei Pan, Dapeng Liu, Jie Jiang, [Mingsheng Long](http://ise.thss.tsinghua.edu.cn/~mlong/)<br>
 _Thirty-seventh Conference on Neural Information Processing Systems (NeurIPS 2023)_ <br>
-[[ArXiv](https://arxiv.org/abs/2301.12618)]
+[[ArXiv](https://arxiv.org/abs/2301.12618)] [[OpenReview](https://openreview.net/forum?id=vZHk1QlBQW)] [[Slides](https://neurips.cc/media/neurips-2023/Slides/70098.pdf)] [[Poster](https://neurips.cc/media/PosterPDFs/NeurIPS%202023/70098.png?t=1697277625.1977432)]
 
 ## Table of Contents
 
