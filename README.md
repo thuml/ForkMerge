@@ -18,6 +18,10 @@ _Thirty-seventh Conference on Neural Information Processing Systems (NeurIPS 202
 
 #### 2023.11
 
+We update the implementation in auxiliary [task scene understanding scenario](./auxiliary_task_scene_understanding).
+
+#### 2023.11
+
 We are working to organize the code and will release the complete codebase later! 
 Currently, we provide the implementation of ForkMerge in [auxiliary domain image recognition](./auxiliary_domain_image_recognition) scenario. 
 Please refer to [auxiliary_domain_image_recognition/README.md](./auxiliary_domain_image_recognition/README.md) for details.
