@@ -70,10 +70,10 @@ python forkmerge.py --weighting EW --arch HPS --dataset_path data/nyuv2 --gpu_id
 ```
 
 #### Hyperparameters of ForkMerge
-- --epoch_step: the time interval of merging ($\Delta_t$ in our paper).
-- --pruning_epochs: the period of training to rank each auxiliary task for later pruning.
-- --topk: the number of auxiliary tasks to be used in each branch.
-- --alphas: the searched interpolation weights of model parameters.
+- `--epoch_step`: the time interval of merging ($\Delta_t$ in our paper).
+- `--pruning_epochs`: the period of training to rank each auxiliary task for later pruning.
+- `--topk`: the number of auxiliary tasks to be used in each branch.
+- `--alphas`: the searched interpolation weights of model parameters.
 
 ## Citation
 

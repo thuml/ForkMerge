@@ -51,23 +51,23 @@ and the implementations in other scenarios (scene understanding etc.) are quite 
 1. Rank all the auxiliary tasks according to their contribution to the target task (line 227-247). 
    Concretely, for each auxiliary task, we jointly train with the target tasks for several epochs.
    Afterwards, we can sort according to the validation performance of target tasks. 
-   The period of joint training is determined by hyperparameter --pruning_epochs. 
+   The period of joint training is determined by hyperparameter `--pruning_epochs`. 
    Usually, a relative small value suffices.
 
 2. Construct the general form the task weighting vector in ForkMerge (line 248-260). 
-   The --topk hyperparameter specifies the number of auxiliary tasks to be used in each branch.
-   For example, if --topk=[0, 2], then there will be two branches in ForkMerge. 
+   The `--topk` hyperparameter specifies the number of auxiliary tasks to be used in each branch.
+   For example, if `--topk=[0, 2]`, then there will be two branches in ForkMerge. 
    The first one is only optimized with the target task. While the second one is jointly optimized with the target task and two auxiliary tasks.
    Here, the choices of these two auxiliary tasks are determined by the ranking in step 1 (simply use the top 2).
 
 3. Train ForkMerge (line 267-315). 
-   The --epoch_step hyperparameter indicates the time interval of merging ($\Delta_t$ in our paper).
-   And the --alphas hyperparameter specifies the searched interpolation weights of model parameters.
+   The `--epoch_step` hyperparameter indicates the time interval of merging ($\Delta_t$ in our paper).
+   And the `--alphas` hyperparameter specifies the searched interpolation weights of model parameters.
    As introduced in the Appendix, we adopt a greedy merging strategy to reduce computation cost (line 286-294).
 
 After these three steps, we can obtain the final ForkMerge model and test its performance! 
 
-It's also easy to reproduce our results in Table 2 of the paper. Simply set --topk=[0, 5]. 
+It's also easy to reproduce our results in Table 2 of the paper. Simply set `--topk=[0, 5]`. 
 In this case, all the auxiliary tasks are jointly trained in one branch.
 
 ## Citation
