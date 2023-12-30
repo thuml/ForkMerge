@@ -2,5 +2,5 @@ numpy
 torch
 torchvision
 prettytable
-timm
+timm==0.5.4
 typing

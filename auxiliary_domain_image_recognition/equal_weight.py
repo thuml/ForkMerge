@@ -8,7 +8,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.backends.cudnn as cudnn
-from torch.optim import SGD
 from torch.utils.data import DataLoader
 from torch.optim.lr_scheduler import CosineAnnealingLR
 
@@ -74,8 +73,7 @@ def main(args):
 
     print(heads)
     # define optimizer and lr scheduler
-    optimizer = SGD(classifier.get_parameters(args.lr), args.lr, momentum=args.momentum, weight_decay=args.wd,
-                    nesterov=True)
+    optimizer = utils.get_optimizer(classifier, args.optimizer, args.lr, args.momentum, args.wd)
     lr_scheduler = CosineAnnealingLR(optimizer, T_max=args.epochs)
 
     # resume from the best checkpoint
@@ -195,6 +193,7 @@ if __name__ == '__main__':
     parser.add_argument('--test-batch-size', default=48, type=int)
     parser.add_argument('--lr', '--learning-rate', default=0.01, type=float,
                         metavar='LR', help='initial learning rate', dest='lr')
+    parser.add_argument('--optimizer', default='sgd', type=str)
     parser.add_argument('--momentum', default=0.9, type=float, metavar='M',
                         help='momentum')
     parser.add_argument('--wd', '--weight-decay', default=0.0005, type=float,

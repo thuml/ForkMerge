@@ -11,7 +11,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.backends.cudnn as cudnn
-from torch.optim import SGD
 from torch.utils.data import DataLoader
 from torch.optim.lr_scheduler import CosineAnnealingLR
 
@@ -75,13 +74,13 @@ class SpecifiedProbMultiTaskSampler(BaseMultiTaskSampler):
 
 
 class Trainer:
-    def __init__(self, name, model, save_path, lr, momentum, weight_decay, epochs, task_to_unweighted_probs):
+    def __init__(self, name, model, save_path, optimizer_name, lr, momentum, weight_decay, epochs,
+                 task_to_unweighted_probs):
         self.name = name
         self.model = model
         self.save_path = save_path
         self.epochs = epochs
-        self.optimizer = SGD(model.get_parameters(lr), lr, momentum=momentum, weight_decay=weight_decay,
-                             nesterov=True)
+        self.optimizer = utils.get_optimizer(model, optimizer_name, lr, momentum=momentum, weight_decay=weight_decay)
         self.scheduler = CosineAnnealingLR(self.optimizer, T_max=epochs)
         self.best_acc1 = {}
         self.task_to_unweighted_probs = task_to_unweighted_probs
@@ -236,6 +235,7 @@ def main(args):
             new_task_weights[aux_task_name] = 1
             print(new_task_weights)
             trainer = Trainer("ranking_{}".format(aux_task_name), model, logger.get_checkpoint_path(aux_task_name),
+                              args.optimizer,
                               args.lr, args.momentum, args.wd, args.epochs, new_task_weights)
             trainer.train(train_loaders, 0, args.pruning_epochs, args.iters_per_epoch, val_loaders)
             performance_dict[aux_task_name] = sum(trainer.best_acc1.values()) / len(trainer.best_acc1)
@@ -255,7 +255,8 @@ def main(args):
         print("top {}: {}".format(topk, new_task_weights))
 
         trainers[topk] = Trainer("top_{}".format(topk), deepcopy(model),
-                                 logger.get_checkpoint_path("top_{}".format(topk)), args.lr,
+                                 logger.get_checkpoint_path("top_{}".format(topk)), args.optimizer,
+                                 args.lr,
                                  args.momentum, args.wd, args.epochs, new_task_weights)
     target_trainer = list(trainers.values())[0]
 
@@ -355,6 +356,7 @@ if __name__ == '__main__':
                         help='mini-batch size (default: 48)')
     parser.add_argument('--lr', '--learning-rate', default=0.01, type=float,
                         metavar='LR', help='initial learning rate', dest='lr')
+    parser.add_argument('--optimizer', default='sgd', type=str)
     parser.add_argument('--momentum', default=0.9, type=float, metavar='M',
                         help='momentum')
     parser.add_argument('--wd', '--weight-decay', default=0.0005, type=float,

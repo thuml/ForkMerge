@@ -2,6 +2,7 @@ import time
 
 import timm
 import torch
+from torch.optim import SGD, AdamW
 import torch.nn as nn
 import torch.nn.functional as F
 import torchvision.transforms as T
@@ -50,6 +51,16 @@ def get_model(model_name, pretrain=True):
             backbone.out_features = backbone.head.in_features
             backbone.head = nn.Identity()
     return backbone
+
+
+def get_optimizer(model, optimizer_name, lr, momentum=0.9, weight_decay=5e-4):
+    if optimizer_name == 'sgd':
+        optimizer = SGD(model.get_parameters(lr), lr, momentum=momentum, weight_decay=weight_decay, nesterov=True)
+    elif optimizer_name == 'adamw':
+        optimizer = AdamW(model.get_parameters(lr), lr, weight_decay=weight_decay)
+    else:
+        raise NotImplementedError(optimizer_name)
+    return optimizer
 
 
 def get_dataset_names():
